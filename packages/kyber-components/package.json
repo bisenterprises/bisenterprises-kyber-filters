@@ -1,0 +1,78 @@
+{
+	"name": "@bisenterprises/kyber-components",
+	"version": "10.0.5",
+	"main": "dist/js/kyber-components.js",
+	"files": [
+		"dist/"
+	],
+	"browserslist": [
+		"last 2 versions",
+		"ie 11"
+	],
+	"scripts": {
+		"precommit": "lint-staged",
+		"prebuild": "yarn clean && yarn build:componentsIndex",
+		"build": "run-p build:rollup build:copy:less build:cssBundles build:emaStyles",
+		"postbuild": "mkdirp ../../deploy && cp -r ./dist/* ../../deploy && cp testbed-kyber-components.html ../../deploy",
+		"build:rollup": "cross-env NODE_ENV=production rollup -c",
+		"prebuild:dev": "yarn clean && yarn build:componentsIndex",
+		"build:dev": "run-p build:dev:rollup build:cssBundles build:emaStyles",
+		"build:dev:rollup": "cross-env NODE_ENV=development rollup -c",
+		"build:componentsIndex": "cross-env node ./build/generateComponentsIndex.js",
+		"build:copy:less": "cpy --cwd=src --parents \"**/*.less\" ../dist/less/components",
+		"build:cssBundles": "mkdirp dist/css && lessc src/less/emx-wc-resets.less dist/css/emx-wc-resets.css",
+		"build:emaStyles": "lessc src/less/ema.less dist/css/ema.min.css",
+		"watch": "run-s build:componentsIndex watch:rollup",
+		"watch:rollup": "yarn build:dev:rollup --watch",
+		"lint": "eslint ./src/ --color",
+		"lint:fix": "yarn lint --fix",
+		"test": "yarn test:unit --projects jest.config.js jest.integration.config.js",
+		"test:watch": "yarn test --watch",
+		"test:unit": "cross-env NODE_ENV=test jest --color",
+		"test:unit:watch": "yarn test:unit --watch",
+		"test:integration": "yarn test:unit --config=jest.integration.config.js",
+		"test:integration:watch": "yarn test:integration --watch",
+		"test:coverage": "cross-env NODE_ENV=test yarn test --coverage",
+		"flow": "flow",
+		"flow-typed": "flow-typed",
+		"clean": "rimraf dist",
+		"clear-cache": "rimraf node_modules/.cache"
+	},
+	"lint-staged": {
+		"**/*.{js,jsx}": [
+			"prettier --write",
+			"git add",
+			"jest --bail --projects jest.config.js jest.integration.config.js --findRelatedTests"
+		],
+		"**/*.{css,less}": [
+			"prettier --write",
+			"git add"
+		]
+	},
+	"dependencies": {
+		"@bisenterprises/bis-utils": "^0.6.8",
+		"@bisenterprises/kyber-primitives": "^10.0.5",
+		"classnames": "^2.2.5",
+		"lodash": "^4.17.10",
+		"moment": "^2.21.0",
+		"popper.js": "^1.12.9",
+		"prop-types": "^15.5.8",
+		"react": "16.8.6",
+		"react-dom": "16.8.6",
+		"react-media": "^1.6.1",
+		"react-router": "4.4.0 || ^5.1.2",
+		"react-router-dom": "^4.1.2 || 5.1.2",
+		"react-style-proptype": "^3.2.1",
+		"react-transition-group": "^2.2.0"
+	},
+	"peerDependencies": {
+		"font-awesome": "^4.7.0",
+		"prop-types": "^15.5.8",
+		"react": ">=16.8.6",
+		"react-dom": ">=16.8.6",
+		"react-router-dom": "^4.1.2 || ^5.1.2"
+	},
+	"publishConfig": {
+  		"access": "public"
+	}
+}

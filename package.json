@@ -1,0 +1,28 @@
+{
+    "name": "@bisenterprises/kyber-filters",
+    "version": "1.0.0",
+    "description": "Kyber monorepo containing kyber-filters and other utility packages",
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "build": "lerna run build",
+        "lint": "lerna run lint",
+        "test": "lerna run test",
+        "release": "lerna publish",
+        "prepare": "lerna bootstrap"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bisenterprises/bisenterprises-kyber-filters.git"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "lerna": "^7.0.0",
+        "@lerna/cli": "^7.0.0"
+    }
+  }
